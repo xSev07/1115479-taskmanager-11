@@ -1,4 +1,10 @@
-const DescriptionItems = [`Изучить теорию`, `Сделать домашку`, `Пройти интенсив на соточку`];
+import {COLORS} from "../const";
+
+const DescriptionItems = [
+  `Изучить теорию`,
+  `Сделать домашку`,
+  `Пройти интенсив на соточку`];
+
 const DefaultRepeatingDays = {
   "mo": false,
   "tu": false,
@@ -47,7 +53,10 @@ const generateTask = () => {
   return {
     description: getRandomArrayItem(DescriptionItems),
     dueDate,
-    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays,
+    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
+    color: getRandomArrayItem(COLORS),
+    isFavorite: getRandomBoolean(),
+    isArchive: getRandomBoolean(),
   };
 };
 
