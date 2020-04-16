@@ -7,15 +7,7 @@ import {createSiteMenuTemplate} from "./components/site-menu.js";
 import {createSortingTemplate} from "./components/sorting.js";
 import {generateFilters} from "./mock/filter.js";
 import {generateTasks} from "./mock/task.js";
-
-const TASK_COUNT = 20;
-const SHOWING_TASKS_COUNT_ON_START = 8;
-const SHOWING_TASKS_COUNT_BY_BUTTON = 8;
-
-const PlaceInsert = {
-  BEFORE_END: `beforeend`,
-  AFTER_BEGIN: `afterbegin`
-};
+import {taskCounts, PlaceInsert} from "./const";
 
 const render = (container, htmlText, place = PlaceInsert.BEFORE_END) => {
   container.insertAdjacentHTML(place, htmlText);
@@ -41,12 +33,12 @@ render(siteMainElement, createBoardTemplate());
 const boardElement = siteMainElement.querySelector(`.board`);
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);
 
-const tasks = generateTasks(TASK_COUNT);
+const tasks = generateTasks(taskCounts.ALL);
 
 render(boardElement, createSortingTemplate(), PlaceInsert.AFTER_BEGIN);
 render(taskListElement, createTaskEditTemplate(tasks[0]));
 
-let showingTasksCount = SHOWING_TASKS_COUNT_ON_START;
+let showingTasksCount = taskCounts.SHOWING_ON_START;
 renderTasks(1, showingTasksCount);
 render(boardElement, createLoadMoreButtonTemplate());
 
@@ -54,7 +46,7 @@ const loadMoreButton = boardElement.querySelector(`.load-more`);
 
 loadMoreButton.addEventListener(`click`, () => {
   const prevTaskCount = showingTasksCount;
-  showingTasksCount = showingTasksCount + SHOWING_TASKS_COUNT_BY_BUTTON;
+  showingTasksCount = showingTasksCount + taskCounts.SHOWING_BY_BUTTON;
   renderTasks(prevTaskCount, showingTasksCount);
 
   if (showingTasksCount >= tasks.length) {
